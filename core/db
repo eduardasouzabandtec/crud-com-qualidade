@@ -1,1 +1,14 @@
-vamos codar
+{
+  "todos": [
+    {
+      "date": "2023-09-12T23:48:32.489Z",
+      "content": "primeira TODO",
+      "done": false
+    },
+    {
+      "date": "2023-09-12T23:48:32.490Z",
+      "content": "segunda TODO",
+      "done": false
+    }
+  ]
+}
