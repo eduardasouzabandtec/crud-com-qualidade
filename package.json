@@ -21,9 +21,11 @@
   "homepage": "https://github.com/eduardasouzabandtec/crud-com-qualidade#readme",
   "devDependencies": {
     "@types/node": "^20.6.0",
+    "@types/uuid": "^9.0.4",
     "nodemon": "^3.0.1"
   },
   "dependencies": {
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "uuid": "^9.0.1"
   }
 }
