@@ -1,12 +1,13 @@
 import fs from "fs";
-import { json } from "stream/consumers";
 import { v4 as uuid } from 'uuid';
 
 const DB_FILE_PATH = "./core/db";
-console.log('[CRUD]')
+console.log('[CRUD]');
+
+type UUID = string;
 
 interface ITodo {
-    id: string,
+    id: UUID,
     date: string,
     content: string,
     done: boolean
@@ -39,9 +40,8 @@ function CLEAR_BD() {
     fs.writeFileSync(DB_FILE_PATH, "")
 }
 
-function update(id: string, partialTodo: Partial<ITodo>): ITodo {
+function update(id: UUID, partialTodo: Partial<ITodo>): ITodo {
     let updatedTodo;
-    console.log(partialTodo);
     const todos = read();
     todos.forEach((currentTodo) => {
         const isToUpdate = currentTodo.id === id;
@@ -56,24 +56,32 @@ function update(id: string, partialTodo: Partial<ITodo>): ITodo {
     if (!updatedTodo) {
         throw new Error('Please, provide another ID!')
     }
-    console.log('atualizados:', todos);
     return updatedTodo;
 }
 
-function updateContentById(id: string, content: string){
+function updateContentById(id: UUID, content: string){
     return update(id, {
         content,
     })
 
 }
+function deleteById(id: UUID){
+    const todos = read();
+    const todosWithoutOne = todos.filter((todo) => {
+        if(id === todo.id){
+            return false;
+        }
+        return true
+    })
+    fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
+        todos: todosWithoutOne
+    }, null, 2))
+}
 
 CLEAR_BD();
 create('primeira TODO');
-create('segunda TODO');
-const terceiraTodo = create('segunda TODO');
-// update(terceiraTodo.id, {
-//     content: 'Segunda TODO atualizada',
-//     done: true
-// });
-updateContentById(terceiraTodo.id, 'Atualizada!')
+const secondTodo = create('segunda TODO');
+deleteById(secondTodo.id);
+const thirdTodo = create('Terceira TODO');
+updateContentById(thirdTodo.id, 'Atualizada!');
 console.log(read());
